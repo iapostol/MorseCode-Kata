@@ -52,20 +52,20 @@ namespace MorseCode_Kata
 
             var splittedMorseCode = morseCode.Split(" ");
 
-            var spaceFound = false;
+            var isSpaceFound = false;
 
             for (var i = 0; i < splittedMorseCode.Length; i++)
             {
-                if (splittedMorseCode[i].Length == 0 && !spaceFound)
+                if (splittedMorseCode[i].Length == 0 && !isSpaceFound)
                 {
-                    spaceFound = true;
+                    isSpaceFound = true;
                     alphanumerics += " ";
                     continue;
                 }
 
                 if (!string.IsNullOrEmpty(splittedMorseCode[i]))
                 {
-                    spaceFound = false;
+                    isSpaceFound = false;
                     alphanumerics += AlphanumericToMorseCode.FirstOrDefault(x => x.Value == splittedMorseCode[i]).Key;
                 }
             }
