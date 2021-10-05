@@ -3,54 +3,65 @@ using System.Linq;
 
 namespace MorseCode_Kata
 {
-    public static class MorseCodeConverter
+    public class MorseCodeConverter
     {
-        private static readonly Dictionary<char, string> AlphanumericToMorseCode = new()
-        {
-            { ' ', "    " },
-            { 'A', ".-" },
-            { 'B', "-..." },
-            { 'C', "-.-." },
-            { 'D', "-.." },
-            { 'E', "." },
-            { 'F', "..-." },
-            { 'G', "--." },
-            { 'H', "...." },
-            { 'I', ".." },
-            { 'J', ".---" },
-            { 'K', "-.-" },
-            { 'L', ".-.." },
-            { 'M', "--" },
-            { 'N', "-." },
-            { 'O', "---" },
-            { 'P', ".--." },
-            { 'Q', "--.-" },
-            { 'R', ".-." },
-            { 'S', "..." },
-            { 'T', "-" },
-            { 'U', "..-" },
-            { 'V', "...-" },
-            { 'W', ".--" },
-            { 'X', "-..-" },
-            { 'Y', "-.--" },
-            { 'Z', "--.." },
-            { '0', "-----" },
-            { '1', ".----" },
-            { '2', "..---" },
-            { '3', "...--" },
-            { '4', "....-" },
-            { '5', "....." },
-            { '6', "-...." },
-            { '7', "--..." },
-            { '8', "---.." },
-            { '9', "----." }
-        };
+        private const char SPACE = ' ';
+        private Dictionary<char, string> morseCodeMap;
 
-        public static string AlphanumericsFor(string morseCode)
+        public MorseCodeConverter()
         {
-            var alphanumerics = "";
+            CreateMoseCodeMap();
+        }
 
-            var splittedMorseCode = morseCode.Split(" ");
+        private void CreateMoseCodeMap()
+        {
+            morseCodeMap = new()
+            {
+                { SPACE, "    " },
+                { 'A', ".-" },
+                { 'B', "-..." },
+                { 'C', "-.-." },
+                { 'D', "-.." },
+                { 'E', "." },
+                { 'F', "..-." },
+                { 'G', "--." },
+                { 'H', "...." },
+                { 'I', ".." },
+                { 'J', ".---" },
+                { 'K', "-.-" },
+                { 'L', ".-.." },
+                { 'M', "--" },
+                { 'N', "-." },
+                { 'O', "---" },
+                { 'P', ".--." },
+                { 'Q', "--.-" },
+                { 'R', ".-." },
+                { 'S', "..." },
+                { 'T', "-" },
+                { 'U', "..-" },
+                { 'V', "...-" },
+                { 'W', ".--" },
+                { 'X', "-..-" },
+                { 'Y', "-.--" },
+                { 'Z', "--.." },
+                { '0', "-----" },
+                { '1', ".----" },
+                { '2', "..---" },
+                { '3', "...--" },
+                { '4', "....-" },
+                { '5', "....." },
+                { '6', "-...." },
+                { '7', "--..." },
+                { '8', "---.." },
+                { '9', "----." }
+            };
+        }
+
+        public string AlphanumericsFor(string morseCode)
+        {
+            var alphanumerics = string.Empty;
+
+            var splittedMorseCode = morseCode.Split(SPACE);
 
             var isSpaceFound = false;
 
@@ -59,32 +70,32 @@ namespace MorseCode_Kata
                 if (splittedMorseCode[i].Length == 0 && !isSpaceFound)
                 {
                     isSpaceFound = true;
-                    alphanumerics += " ";
+                    alphanumerics += SPACE;
                     continue;
                 }
 
                 if (!string.IsNullOrEmpty(splittedMorseCode[i]))
                 {
                     isSpaceFound = false;
-                    alphanumerics += AlphanumericToMorseCode.FirstOrDefault(x => x.Value == splittedMorseCode[i]).Key;
+                    alphanumerics += morseCodeMap.FirstOrDefault(x => x.Value == splittedMorseCode[i]).Key;
                 }
             }
 
             return alphanumerics;
         }
 
-        public static string MorseCodeFor(string alphanumerics)
+        public string MorseCodeFor(string alphanumerics)
         {
             var upperAlphanumerics = alphanumerics.ToUpper();
 
-            var morseCode = "";
+            var morseCode = string.Empty;
 
             for (var i = 0; i < upperAlphanumerics.Length; i++)
             {
-                if (morseCode.Length > 0 && upperAlphanumerics[i] != ' ')
-                    morseCode += ' ';
+                if (morseCode.Length > 0 && upperAlphanumerics[i] != SPACE)
+                    morseCode += SPACE;
 
-                morseCode += AlphanumericToMorseCode[upperAlphanumerics[i]];
+                morseCode += morseCodeMap[upperAlphanumerics[i]];
             }
 
             return morseCode;
